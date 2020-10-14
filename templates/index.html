@@ -1,50 +1,66 @@
 <!DOCTYPE html>
-<html >
+<html>
 <!--From https://codepen.io/frytyler/pen/EGdtg-->
 <head>
   <meta charset="UTF-8">
-  <title>ML API</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <title>CoronaPrediction</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   
 </head>
 
 <body>
- <div class="predict">
-	<h1>Predict Corona Cases on Basis of HDI</h1>
-    <div>
-     <!-- Main Input For Receiving Query to our ML -->
+<h1 style ="text-align:center">Visualize, Predict and Forecast Covid Data </h1>
+ <div style="float:left; width:300px; height:300px; position: absolute">
+
+     <br><br>
+	<p>Predict Corona Cases on Basis of HDI</p>
     <form action="{{ url_for('predict')}}" method="post">
-        <input type="number" name="Extreme_poverty" placeholder="Poverty_score" required="required" />
+        <input type="number" name="stringency_index" placeholder="Stringency_index" required="required" />
 		<input type="number" name="handwash" placeholder="Handwashing_facilities" required="required" />
-        <input type="number" name="hospital_beds" placeholder="hospital_beds" required="required" />
+        <input type="number" name="hospital_beds" placeholder="hospital_beds_per_thousand" required="required" />
          <input type="number" name="HDI" placeholder="human_development_index" required="required" />
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
-        </div>
- </div>
-            <br>
+      <br>
    <br>
    {{ prediction_text }}
-     <!-- Main Input For Receiving Query to our ML -->
-         <div style="float:right">
-             <h1>Visualize the new cases and death cases of corona according to country</h1>
-    <form action="{{ url_for('plot_countrycases')}}" method="post">
+</div>
+
+ <br><br>
+    <div style="float:right; width:300px; height:300px;  right:0;position: absolute" >
+     <p>Visualize cases on basis of country</p>
+
+     <form action="{{ url_for('plot_countrycases')}}" method="post">
         <input type="text" name="location" placeholder="Country" required="required" />
-        <input type="date" name="to" placeholder="To date" required="required" />
-        <select name="cars" id="cars">
+         <input type="date" name="start_date" placeholder="Start date" required="required" />
+        <select name="target" id="case" class="cases">
             <option value="new_cases">NewCases</option>
             <option value="total_deaths">DeathCases</option>
         </select>
         <button type="submit" class="btn btn-primary btn-block btn-large">See Data Plot </button>
     </form>
-                <img src="../static/{{plot_text}}" style="width:200px;height:200px">
-        </div>
+     <img src="../static/{{plot_text}}" style="width:300px;height:300px">
 
+</div>
 
+ <div style="width:200px; height:200px; left: 40%;top: 20%;position: absolute;margin-top:1%;">
+     <p> Forecast with ARIMA model</p>
+    <form action="{{ url_for('forecast')}}" method="post">
+         <input type="text" name="location" placeholder="Country" required="required" />
+        <input type="date" name="start_date" placeholder="Start date" required="required" />
+        <div class="cases">
+        <select name="target" id="cases" class="cases">
+            <option value="new_cases">NewCovidCases</option>
+            <option value="total_deaths">DeathCases</option>
+             <option value="total_cases">TotalCases</option>
+             <option value ="new_deaths">NewDeathCases</option>
+        </select>
+            </div>
+        <button type="submit" class="btn btn-primary btn-block btn-large">ForeCast</button>
+       <img src="../static/{{forecast}}" style="width:400px;height:250px">
+
+    </form>
+ </div>
 
 </body>
 </html>

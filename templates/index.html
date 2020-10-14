@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+ <div class="predict">
+	<h1>Predict Corona Cases on Basis of HDI</h1>
+    <div>
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}" method="post">
+        <input type="number" name="Extreme_poverty" placeholder="Poverty_score" required="required" />
+		<input type="number" name="handwash" placeholder="Handwashing_facilities" required="required" />
+        <input type="number" name="hospital_beds" placeholder="hospital_beds" required="required" />
+         <input type="number" name="HDI" placeholder="human_development_index" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+        </div>
+ </div>
+            <br>
+   <br>
+   {{ prediction_text }}
+     <!-- Main Input For Receiving Query to our ML -->
+         <div style="float:right">
+             <h1>Visualize the new cases and death cases of corona according to country</h1>
+    <form action="{{ url_for('plot_countrycases')}}" method="post">
+        <input type="text" name="location" placeholder="Country" required="required" />
+        <input type="date" name="to" placeholder="To date" required="required" />
+        <select name="cars" id="cars">
+            <option value="new_cases">NewCases</option>
+            <option value="total_deaths">DeathCases</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-block btn-large">See Data Plot </button>
+    </form>
+                <img src="../static/{{plot_text}}" style="width:200px;height:200px">
+        </div>
+
+
+
+</body>
+</html>
